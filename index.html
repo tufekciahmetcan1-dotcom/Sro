@@ -143,9 +143,12 @@
             background: linear-gradient(140deg, rgba(17,24,39,0.96), rgba(15,23,42,0.82));
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.14s ease, border-color 0.14s ease;
         }
         .card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 0%, rgba(251,191,36,0.08), transparent 35%); }
         .card > * { position: relative; z-index: 1; }
+        .card:hover { transform: translateY(-4px); border-color: rgba(59,130,246,0.4); }
         .card h3 { margin: 0 0 6px; }
         .card .meta { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
         .card .price { color: var(--accent); font-size: 22px; font-weight: 800; }
@@ -247,7 +250,6 @@
         <nav>
             <a href="#listings">Pazar</a>
             <a href="#destek">Destek</a>
-            <a href="#demolar">Panel Demoları</a>
         </nav>
         <div class="actions">
             <a class="pill secondary" href="#tr">TR / ₺</a>
@@ -285,7 +287,7 @@
                 <span class="badge">⭐ Öne Çıkan</span>
             </div>
             <div class="listings">
-                <div class="card">
+                <div class="card" data-title="Lv110 STR Blader +7 SET" data-meta="Karakter • Tara / TR • 2 saat önce" data-seller="MysticBlade" data-price="5.500₺" data-description="+7 setli STR Blader karakter, full blue ve PvP odaklı build. Satıcı canlı teslimat ve video kanıtı sağlıyor.">
                     <div class="meta">Karakter • Tara / TR • 2 saat önce</div>
                     <h3>Lv110 STR Blader +7 SET</h3>
                     <div class="meta">Satıcı: MysticBlade</div>
@@ -296,7 +298,7 @@
                         <span class="tag">Video kanıtı</span>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" data-title="Legend +6 Bow (Critical 12)" data-meta="Item • Neptune / EU • 4 saat önce" data-seller="ArrowQueen" data-price="2.150₺" data-description="Legend sınıfı +6 yay, kritik oranı 12. Teslimat için sunucu içi buluşma ve escrow koruması sunulur.">
                     <div class="meta">Item • Neptune / EU • 4 saat önce</div>
                     <h3>Legend +6 Bow (Critical 12)</h3>
                     <div class="meta">Satıcı: ArrowQueen</div>
@@ -307,7 +309,7 @@
                         <span class="tag">Sunucu içi teslim</span>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" data-title="3B Gold + Premium" data-meta="Gold / Silk • Asgard • 1 gün önce" data-seller="SilkBank" data-price="1.250₺" data-description="Toplam 3B gold ve premium paket birlikte satılıyor. Güvenli ticaret ve takip kodu ile aynı gün teslimat.">
                     <div class="meta">Gold / Silk • Asgard • 1 gün önce</div>
                     <h3>3B Gold + Premium</h3>
                     <div class="meta">Satıcı: SilkBank</div>
@@ -352,32 +354,6 @@
                     <strong>Güvenli Escrow</strong>
                     <small>Satıcı onayı, kimlik doğrulama ve canlı destek ile işlemler koruma altında.</small>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel" id="demolar" style="margin-top: 18px;">
-        <div class="section-title">
-            <h2>Panel Demoları</h2>
-            <span class="badge">Admin & Kullanıcı</span>
-        </div>
-        <p>Veriler GitHub üzerinde saklanmadığı için demo modallarından panel görünümlerini inceleyebilirsin.</p>
-        <div class="sidebar-list" style="grid-template-columns: repeat(auto-fit, minmax(260px,1fr));">
-            <div class="sidebar-card">
-                <div class="bubble">🧭</div>
-                <div>
-                    <strong>Kullanıcı Paneli</strong>
-                    <small>İlan yönetimi, escrow durumu ve mesajlar.</small>
-                </div>
-                <button class="pill" data-action="seller-demo">Paneli Gör</button>
-            </div>
-            <div class="sidebar-card">
-                <div class="bubble">🛠️</div>
-                <div>
-                    <strong>Admin Paneli</strong>
-                    <small>Satıcı doğrulama, kategori kontrolü ve komisyon.</small>
-                </div>
-                <button class="pill accent" data-action="admin-demo">Paneli Gör</button>
             </div>
         </div>
     </div>
@@ -476,48 +452,6 @@
                 </div>
             </form>
         `,
-        'seller-demo': `
-            <h3>Kullanıcı Paneli Demo</h3>
-            <p>Vitrindeki ilanların, escrow durumlarının ve mesajların tek ekranda nasıl görüneceğini önizleyin.</p>
-            <div class="sidebar-list" style="margin-top:12px;">
-                <div class="sidebar-card">
-                    <div class="bubble">📦</div>
-                    <div><strong>İlanlar</strong><small>3 aktif • 1 taslak</small></div>
-                </div>
-                <div class="sidebar-card">
-                    <div class="bubble">🛡️</div>
-                    <div><strong>Escrow</strong><small>2 teslimat bekliyor</small></div>
-                </div>
-                <div class="sidebar-card">
-                    <div class="bubble">💬</div>
-                    <div><strong>Mesaj Kutusu</strong><small>Yeni alıcı soruları</small></div>
-                </div>
-            </div>
-            <div class="actions" style="margin-top:14px;">
-                <button class="pill accent" style="border:none;" onclick="closeModal()">Tamam</button>
-            </div>
-        `,
-        'admin-demo': `
-            <h3>Admin Paneli Demo</h3>
-            <p>Satıcı doğrulama, kategori yönetimi ve şikayet takibi modüllerinin özet görünümü.</p>
-            <div class="sidebar-list" style="margin-top:12px;">
-                <div class="sidebar-card">
-                    <div class="bubble">✅</div>
-                    <div><strong>Onay Bekleyen</strong><small>5 yeni satıcı</small></div>
-                </div>
-                <div class="sidebar-card">
-                    <div class="bubble">📂</div>
-                    <div><strong>Kategoriler</strong><small>Karakter, Item, Gold / Silk</small></div>
-                </div>
-                <div class="sidebar-card">
-                    <div class="bubble">⚠️</div>
-                    <div><strong>Şikayetler</strong><small>1 acil inceleme</small></div>
-                </div>
-            </div>
-            <div class="actions" style="margin-top:14px;">
-                <button class="pill accent" style="border:none;" onclick="closeModal()">Anladım</button>
-            </div>
-        `,
     };
 
     function openModal(type) {
@@ -552,6 +486,34 @@
             const type = trigger.getAttribute('data-action');
             openModal(type);
         });
+    });
+
+    function openListingDetail(card) {
+        const title = card.dataset.title || card.querySelector('h3')?.textContent || 'İlan Detayı';
+        const meta = card.dataset.meta || card.querySelector('.meta')?.textContent || '';
+        const seller = card.dataset.seller || '';
+        const price = card.dataset.price || card.querySelector('.price')?.textContent || '';
+        const description = card.dataset.description || '';
+        const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent).filter(Boolean);
+
+        modalContent.innerHTML = `
+            <div class="section-title">
+                <h3 style="margin:0;">${title}</h3>
+                <span class="badge">${price}</span>
+            </div>
+            <p style="margin-bottom:10px;">${meta}${seller ? ' • Satıcı: ' + seller : ''}</p>
+            ${description ? `<p style="margin-bottom:12px; color: var(--muted);">${description}</p>` : ''}
+            ${tags.length ? `<div class="tags">${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+            <div class="actions" style="margin-top:16px; justify-content:flex-end;"> 
+                <button class="pill" style="border:none;" onclick="closeModal()">Kapat</button>
+                <button class="pill accent" style="border:none;">Satıcıya Mesaj Gönder</button>
+            </div>
+        `;
+        modalBackdrop.style.display = 'flex';
+    }
+
+    document.querySelectorAll('.listings .card').forEach((card) => {
+        card.addEventListener('click', () => openListingDetail(card));
     });
 
     modalClose.addEventListener('click', closeModal);
