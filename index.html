@@ -246,9 +246,8 @@
         </div>
         <nav>
             <a href="#listings">Pazar</a>
-            <a href="#giris">Giriş</a>
-            <a href="#guvenli">Güvenli Ticaret</a>
             <a href="#destek">Destek</a>
+            <a href="#demolar">Panel Demoları</a>
         </nav>
         <div class="actions">
             <a class="pill secondary" href="#tr">TR / ₺</a>
@@ -272,7 +271,6 @@
             <select>
                 <option>Karakter</option>
                 <option>Item</option>
-                <option>Guild</option>
                 <option>Gold / Silk</option>
             </select>
             <input type="text" placeholder="Sunucu, build veya ek özellik ara (ör. STR Blader)">
@@ -287,13 +285,37 @@
                 <span class="badge">⭐ Öne Çıkan</span>
             </div>
             <div class="listings">
-                <div class="card" style="grid-column: 1 / -1;">
-                    <h3>İlanlar kullanıcılar ekledikçe burada listelenecek</h3>
-                    <div class="meta">Şu an vitrin boş, ilk ilanı sen ekle.</div>
-                    <div class="tags" style="margin-top:10px;">
-                        <span class="tag">Kayıt ol</span>
-                        <span class="tag">Giriş yap</span>
-                        <span class="tag">İlan oluştur</span>
+                <div class="card">
+                    <div class="meta">Karakter • Tara / TR • 2 saat önce</div>
+                    <h3>Lv110 STR Blader +7 SET</h3>
+                    <div class="meta">Satıcı: MysticBlade</div>
+                    <div class="price">5.500₺</div>
+                    <div class="tags">
+                        <span class="tag">Full blue</span>
+                        <span class="tag">Gece teslimat</span>
+                        <span class="tag">Video kanıtı</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="meta">Item • Neptune / EU • 4 saat önce</div>
+                    <h3>Legend +6 Bow (Critical 12)</h3>
+                    <div class="meta">Satıcı: ArrowQueen</div>
+                    <div class="price">2.150₺</div>
+                    <div class="tags">
+                        <span class="tag">FPS kayıtlı</span>
+                        <span class="tag">24s escrow</span>
+                        <span class="tag">Sunucu içi teslim</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="meta">Gold / Silk • Asgard • 1 gün önce</div>
+                    <h3>3B Gold + Premium</h3>
+                    <div class="meta">Satıcı: SilkBank</div>
+                    <div class="price">1.250₺</div>
+                    <div class="tags">
+                        <span class="tag">Güvenli ticaret</span>
+                        <span class="tag">Takip kodu</span>
+                        <span class="tag">Hızlı kargo</span>
                     </div>
                 </div>
             </div>
@@ -330,6 +352,32 @@
                     <strong>Güvenli Escrow</strong>
                     <small>Satıcı onayı, kimlik doğrulama ve canlı destek ile işlemler koruma altında.</small>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel" id="demolar" style="margin-top: 18px;">
+        <div class="section-title">
+            <h2>Panel Demoları</h2>
+            <span class="badge">Admin & Kullanıcı</span>
+        </div>
+        <p>Veriler GitHub üzerinde saklanmadığı için demo modallarından panel görünümlerini inceleyebilirsin.</p>
+        <div class="sidebar-list" style="grid-template-columns: repeat(auto-fit, minmax(260px,1fr));">
+            <div class="sidebar-card">
+                <div class="bubble">🧭</div>
+                <div>
+                    <strong>Kullanıcı Paneli</strong>
+                    <small>İlan yönetimi, escrow durumu ve mesajlar.</small>
+                </div>
+                <button class="pill" data-action="seller-demo">Paneli Gör</button>
+            </div>
+            <div class="sidebar-card">
+                <div class="bubble">🛠️</div>
+                <div>
+                    <strong>Admin Paneli</strong>
+                    <small>Satıcı doğrulama, kategori kontrolü ve komisyon.</small>
+                </div>
+                <button class="pill accent" data-action="admin-demo">Paneli Gör</button>
             </div>
         </div>
     </div>
@@ -427,6 +475,48 @@
                     <button type="submit" class="pill accent" style="border:none;">İlanı Kaydet</button>
                 </div>
             </form>
+        `,
+        'seller-demo': `
+            <h3>Kullanıcı Paneli Demo</h3>
+            <p>Vitrindeki ilanların, escrow durumlarının ve mesajların tek ekranda nasıl görüneceğini önizleyin.</p>
+            <div class="sidebar-list" style="margin-top:12px;">
+                <div class="sidebar-card">
+                    <div class="bubble">📦</div>
+                    <div><strong>İlanlar</strong><small>3 aktif • 1 taslak</small></div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="bubble">🛡️</div>
+                    <div><strong>Escrow</strong><small>2 teslimat bekliyor</small></div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="bubble">💬</div>
+                    <div><strong>Mesaj Kutusu</strong><small>Yeni alıcı soruları</small></div>
+                </div>
+            </div>
+            <div class="actions" style="margin-top:14px;">
+                <button class="pill accent" style="border:none;" onclick="closeModal()">Tamam</button>
+            </div>
+        `,
+        'admin-demo': `
+            <h3>Admin Paneli Demo</h3>
+            <p>Satıcı doğrulama, kategori yönetimi ve şikayet takibi modüllerinin özet görünümü.</p>
+            <div class="sidebar-list" style="margin-top:12px;">
+                <div class="sidebar-card">
+                    <div class="bubble">✅</div>
+                    <div><strong>Onay Bekleyen</strong><small>5 yeni satıcı</small></div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="bubble">📂</div>
+                    <div><strong>Kategoriler</strong><small>Karakter, Item, Gold / Silk</small></div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="bubble">⚠️</div>
+                    <div><strong>Şikayetler</strong><small>1 acil inceleme</small></div>
+                </div>
+            </div>
+            <div class="actions" style="margin-top:14px;">
+                <button class="pill accent" style="border:none;" onclick="closeModal()">Anladım</button>
+            </div>
         `,
     };
 
