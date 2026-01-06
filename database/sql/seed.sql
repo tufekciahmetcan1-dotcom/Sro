@@ -1,6 +1,8 @@
 INSERT INTO users (name, email, password, role) VALUES
 ('Demo Satıcı', 'satici@demo.com', '$2y$10$examplehash', 'seller'),
-('Demo Alıcı', 'alici@demo.com', '$2y$10$examplehash', 'buyer');
+('Demo Alıcı', 'alici@demo.com', '$2y$10$examplehash', 'buyer'),
+('Yönetici', 'admin@admin.com', '$2y$12$Z8UQbcx2eAZuTTLoZM8Xmu.fXwajBWvbzrFHqJj30C5F/nu/LApdS', 'admin'),
+('Kullanıcı', 'kullanici@kullanici.com', '$2y$12$Z8UQbcx2eAZuTTLoZM8Xmu.fXwajBWvbzrFHqJj30C5F/nu/LApdS', 'seller');
 
 INSERT INTO stores (user_id, name, slug, support_email, address) VALUES
 (1, 'Demo Mağaza', 'demo-magaza', 'destek@demo.com', 'İstanbul, Türkiye');

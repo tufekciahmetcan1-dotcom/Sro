@@ -37,6 +37,7 @@ class ListingController extends Controller
         ]);
 
         $listings = Session::get('listings', []);
+        $authUser = Session::get('auth_user');
         $listings[] = [
             'title' => $validated['title'],
             'category' => $validated['category'],
@@ -47,6 +48,7 @@ class ListingController extends Controller
             'tags' => $validated['tags'] ?? '',
             'media' => $validated['media'] ?? [],
             'status' => 'Yayında',
+            'owner' => $authUser['name'] ?? 'Anonim Kullanıcı',
             'created_at' => now()->toDateTimeString(),
         ];
 

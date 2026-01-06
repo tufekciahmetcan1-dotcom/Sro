@@ -80,11 +80,21 @@
         <div class="brand">Silkroad Satıcı Paneli</div>
         <nav>
             <a href="{{ route('welcome') }}">Ana Sayfa</a>
-            <a href="{{ route('register') }}">Kayıt Ol</a>
-            <a href="{{ route('login') }}">Giriş Yap</a>
-            <a href="{{ route('seller.dashboard') }}">Satıcı Paneli</a>
+            @if(!session('auth_user'))
+                <a href="{{ route('register') }}">Kayıt Ol</a>
+                <a href="{{ route('login') }}">Giriş Yap</a>
+            @else
+                <span class="status">{{ session('auth_user.name') }} ({{ session('auth_user.role') }})</span>
+                <a href="{{ route('seller.dashboard') }}">Kullanıcı Paneli</a>
+                @if(session('auth_user.role') === 'admin')
+                    <a href="{{ route('admin.users') }}">Yönetim</a>
+                @endif
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" style="background:transparent; border:1px solid var(--border); color:inherit;">Çıkış</button>
+                </form>
+            @endif
             <a href="{{ route('listings.create') }}">Yeni İlan</a>
-            <a href="{{ route('admin.users') }}">Yönetim</a>
         </nav>
     </div>
 </header>
