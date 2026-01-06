@@ -161,6 +161,71 @@
         .section-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
         .badge { padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
 
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            border-radius: 18px;
+            max-width: 480px;
+            width: 100%;
+            padding: 22px;
+            position: relative;
+        }
+
+        .modal h3 { margin: 0 0 6px; }
+        .modal p { margin: 0 0 14px; color: var(--muted); }
+
+        .modal form { display: grid; gap: 12px; }
+        .modal label { display: grid; gap: 6px; font-weight: 600; }
+        .modal input, .modal select, .modal textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--soft);
+            color: var(--text);
+        }
+
+        .modal textarea { min-height: 90px; resize: vertical; }
+
+        .modal .actions { justify-content: flex-end; }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 6px 10px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 12px 16px;
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.35);
+            color: #bbf7d0;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
         footer { margin-top: 22px; text-align: center; color: var(--muted); }
 
         @media (max-width: 1024px) {
@@ -187,8 +252,8 @@
         </nav>
         <div class="actions">
             <a class="pill secondary" href="#tr">TR / ₺</a>
-            <a class="pill" href="#giris">Giriş Yap</a>
-            <a class="pill accent" href="#ilan">İlan Oluştur</a>
+            <button class="pill" data-action="login">Giriş Yap</button>
+            <button class="pill accent" data-action="listing">İlan Oluştur</button>
         </div>
     </header>
 
@@ -255,8 +320,8 @@
                         <small>••••••••</small>
                     </div>
                 </div>
-                <a class="pill accent" style="text-align:center; border:none;" href="#">Giriş Yap</a>
-                <a class="pill" id="kayit" href="#">Kayıt Ol</a>
+                <button class="pill accent" style="text-align:center; border:none;" data-action="login">Giriş Yap</button>
+                <button class="pill" id="kayit" data-action="register">Kayıt Ol</button>
             </div>
 
             <div id="guvenli" class="sidebar-card" style="margin-top: 18px;">
@@ -309,6 +374,100 @@
     <footer>
         sro.gg görünümünde tasarlanan pazar ekranı — güvenli ticaret için topluluk onaylı satıcılar ve escrow altyapısı.
     </footer>
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modal-close">✕</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">İşlemin kaydedildi.</div>
 </div>
+
+<script>
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const modalContent = document.getElementById('modal-content');
+    const modalClose = document.getElementById('modal-close');
+    const toast = document.getElementById('toast');
+
+    const templates = {
+        login: `
+            <h3>Hızlı Giriş</h3>
+            <p>Hesabına giriş yap ve ilanlarını yönet.</p>
+            <form id="login-form">
+                <label>E-posta<input required type="email" placeholder="ornek@mail.com"></label>
+                <label>Şifre<input required type="password" placeholder="••••••••"></label>
+                <div class="actions">
+                    <button type="submit" class="pill accent" style="border:none;">Giriş Yap</button>
+                </div>
+            </form>
+        `,
+        register: `
+            <h3>Kayıt Ol</h3>
+            <p>Yeni hesap oluştur ve satıcı doğrulamasını başlat.</p>
+            <form id="register-form">
+                <label>Kullanıcı Adı<input required type="text" placeholder="Takma ad"></label>
+                <label>E-posta<input required type="email" placeholder="ornek@mail.com"></label>
+                <label>Şifre<input required type="password" placeholder="En az 8 karakter"></label>
+                <div class="actions">
+                    <button type="submit" class="pill accent" style="border:none;">Kayıt Ol</button>
+                </div>
+            </form>
+        `,
+        listing: `
+            <h3>İlan Oluştur</h3>
+            <p>Karakter, item veya gold ilanını buradan ekle.</p>
+            <form id="listing-form">
+                <label>İlan Başlığı<input required type="text" placeholder="Lv110 STR Blader"></label>
+                <label>Kategori<select required><option value="karakter">Karakter</option><option value="item">Item</option><option value="gold">Gold / Silk</option></select></label>
+                <label>Sunucu<input required type="text" placeholder="Joymax TR"></label>
+                <label>Fiyat<input required type="text" placeholder="5.500₺"></label>
+                <label>Açıklama<textarea required placeholder="Özel build, set detayları, ödeme yöntemi..."></textarea></label>
+                <div class="actions">
+                    <button type="submit" class="pill accent" style="border:none;">İlanı Kaydet</button>
+                </div>
+            </form>
+        `,
+    };
+
+    function openModal(type) {
+        modalContent.innerHTML = templates[type] || '';
+        modalBackdrop.style.display = 'flex';
+        attachFormHandler();
+    }
+
+    function closeModal() {
+        modalBackdrop.style.display = 'none';
+    }
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2400);
+    }
+
+    function attachFormHandler() {
+        const form = modalContent.querySelector('form');
+        if (!form) return;
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            closeModal();
+            showToast('İşlemin kaydedildi. Demo sürümünde veriler saklanmıyor.');
+        });
+    }
+
+    document.querySelectorAll('[data-action]').forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = trigger.getAttribute('data-action');
+            openModal(type);
+        });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) closeModal();
+    });
+</script>
 </body>
 </html>
